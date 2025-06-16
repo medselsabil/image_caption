@@ -1,6 +1,6 @@
 # image_caption
 
-A new Flutter project.
+Flutter image gallery assignment for PDMIU.
 
 ## Getting Started
 
