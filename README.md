@@ -23,8 +23,6 @@ Gallery Moments is a Flutter mobile app that allows users to take or select imag
 <img src="screenshots/caption.png" width="400"/>
 <img src="screenshots/gallery.png" width="400"/>
 
-
-
 ## Technology & Implementation
 
 ### Packages Used
@@ -39,11 +37,6 @@ Gallery Moments is a Flutter mobile app that allows users to take or select imag
 - Theme is managed globally with `ThemeProvider` using `ChangeNotifier`.
 - UI adjusts based on screen size using `MediaQuery` and responsive layouts.
 - Snackbar is used effectively for undo actions and feedback.
-
-### Issues and Fixes
-- **Duplicate images:** handled with exception logic and `SnackBar` feedback.
-- **Race conditions** on picking: solved using an `_isPicking` flag.
-- **ML Labeling fail-safes:** added checks for null/empty results to prevent crashes.
 
 ---
 
