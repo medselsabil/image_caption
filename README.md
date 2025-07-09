@@ -1,8 +1,8 @@
 # Gallery Moments
 
 **Name:** Selssabil Medghaghet  
-**Matricola:** [INSERT YOUR MATRICOLA HERE]  
-**Exam Session:** [INSERT EXAM DATE HERE]
+**Matricola:** 337435  
+**Exam Session:** 17-08-2025
 
 ## Project Title
 Gallery Moments – Smart Image Picker with Captioning and ML Labeling
@@ -20,7 +20,7 @@ Gallery Moments is a Flutter mobile app that allows users to take or select imag
 
 ### Screenshots
 ![Home Screen](/image_caption/screenshots/homescreen.png)  
-![Home Screen](/image_caption/screenshots/caption.png)
+![Captioned](/image_caption/screenshots/caption.png)
 ![Gallery Screen](/image_caption/screenshots/gallaery.png)
 
 > *(Make sure to create a `screenshots/` folder and add these images.)*
