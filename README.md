@@ -20,10 +20,10 @@ Gallery Moments is a Flutter mobile app that allows users to take or select imag
 
 ### Screenshots
 ![Home Screen](/image_caption/screenshots/homescreen.png)  
-![Captioned](/image_caption/screenshots/caption.png)
+![Captioned](/Users/selssabilmedghaghet/Desktop/image_caption/screenshots/caption.png)
 ![Gallery Screen](/image_caption/screenshots/gallaery.png)
 
-> *(Make sure to create a `screenshots/` folder and add these images.)*
+
 
 ## Technology & Implementation
 
