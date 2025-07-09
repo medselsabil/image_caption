@@ -19,9 +19,9 @@ Gallery Moments is a Flutter mobile app that allows users to take or select imag
 - Toggle between light and dark mode in the AppBar.
 
 ### Screenshots
-![Home Screen](screenshots/homescreen.png)  
-![Captioned](screenshots/caption.png)
-![Gallery Screen](screenshots/gallaery.png)
+<img src="screenshots/homescreen.png" width="400"/>
+<img src="screenshots/caption.png" width="400"/>
+<img src="screenshots/gallery.png" width="400"/>
 
 
 
