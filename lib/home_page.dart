@@ -23,7 +23,9 @@ class _HomePageState extends State<HomePage> {
   bool _isPicking = false;
 
   String _creativeCaption(List<ImageLabel> labels) {
-    if (labels.isEmpty) return "A moment captured, a memory created.";
+    if (labels.isEmpty) {
+      return "A moment captured, a memory created.";
+    }
     final topLabels = labels.take(2).map((l) => l.label).toList();
     final funPhrases = [
       "Here's a glimpse into my world.",
@@ -45,6 +47,7 @@ class _HomePageState extends State<HomePage> {
     try {
       final pickedFile =
           await ImagePicker().pickImage(source: source, imageQuality: 90);
+
       if (pickedFile != null) {
         final imageFile = File(pickedFile.path);
         setState(() {
@@ -53,6 +56,7 @@ class _HomePageState extends State<HomePage> {
           _isLoading = true;
           _caption = null;
         });
+
         try {
           context.read<GalleryProvider>().addImage(imageFile);
         } catch (e) {
@@ -69,6 +73,7 @@ class _HomePageState extends State<HomePage> {
             return;
           }
         }
+        await Future.delayed(const Duration(seconds: 1));
         await _labelImage(imageFile);
       }
     } finally {
@@ -99,12 +104,13 @@ class _HomePageState extends State<HomePage> {
     final themeProvider = context.watch<ThemeProvider>();
     final theme = Theme.of(context);
 
+    final Color textColor = theme.colorScheme.onSurface ?? Colors.black;
+
     final screenWidth = MediaQuery.of(context).size.width;
     final isLargeScreen = screenWidth > 600;
     final double padding = isLargeScreen ? 24 : 16;
     final double fontSize = isLargeScreen ? 20 : 16;
 
-    // For label backgrounds and borders (matches screenshot)
     final Color labelBg = Colors.grey[300]!;
     final Color labelBorder = Colors.grey[700]!;
     final Color labelText = Colors.grey[800]!;
@@ -113,7 +119,6 @@ class _HomePageState extends State<HomePage> {
     final Color surface = theme.colorScheme.surface;
     final Color primary = theme.colorScheme.primary;
     final Color onPrimary = theme.colorScheme.onPrimary;
-    final Color textColor = theme.colorScheme.surface;
 
     return Scaffold(
       backgroundColor: background,
@@ -157,13 +162,13 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 color: surface,
                 borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(32),
-                  bottomRight: Radius.circular(32),
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12),
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.06),
-                    blurRadius: 8,
+                    color: textColor.withOpacity(0.5),
+                    blurRadius: 5,
                     offset: const Offset(0, 2),
                   ),
                 ],
@@ -216,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(18),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.03),
+                        color: textColor.withOpacity(0.3),
                         blurRadius: 8,
                         offset: const Offset(0, 2),
                       ),
@@ -224,14 +229,14 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: _imageFile != null
                       ? ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(18),
                           child: Image.file(_imageFile!, fit: BoxFit.contain),
                         )
                       : Center(
                           child: Text(
                             'Tap below to add your first memory',
                             style: TextStyle(
-                              color: textColor.withOpacity(0.7),
+                              color: textColor.withOpacity(0.3),
                               fontSize: fontSize,
                             ),
                           ),
@@ -241,7 +246,7 @@ class _HomePageState extends State<HomePage> {
               SizedBox(height: isLargeScreen ? 24 : 18),
               _buildActionButtons(context, isLargeScreen),
               if (_isLoading) ...[
-                const SizedBox(height: 20),
+                const SizedBox(height: 40),
                 const CircularProgressIndicator(),
               ],
               if (_labels != null)
@@ -251,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.03),
+                        color: textColor.withOpacity(0.3),
                         blurRadius: 6,
                         offset: const Offset(0, 2),
                       ),
@@ -300,24 +305,22 @@ class _HomePageState extends State<HomePage> {
                             .toList(),
                       ),
                       const SizedBox(height: 10),
-                      Semantics(
-                        button: true,
-                        label: 'Share',
-                        child: ElevatedButton.icon(
-                          icon: Icon(Icons.share, color: onPrimary),
-                          label: const Text('Share'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: primary,
-                            foregroundColor: onPrimary,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12)),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: isLargeScreen ? 32 : 24,
-                                vertical: isLargeScreen ? 16 : 12),
-                            elevation: 2,
+                      ElevatedButton.icon(
+                        icon: Icon(Icons.share, color: onPrimary),
+                        label: const Text('Share'),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: primary,
+                          foregroundColor: onPrimary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          onPressed: _shareImageAndCaption,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: isLargeScreen ? 32 : 24,
+                            vertical: isLargeScreen ? 16 : 12,
+                          ),
+                          elevation: 2,
                         ),
+                        onPressed: _shareImageAndCaption,
                       ),
                     ],
                   ),
@@ -365,28 +368,23 @@ class _HomePageState extends State<HomePage> {
     final theme = Theme.of(context);
     final primary = theme.colorScheme.primary;
     final onPrimary = theme.colorScheme.onPrimary;
-    return Semantics(
-      button: true,
-      label: label,
-      child: ElevatedButton.icon(
-        icon: Icon(icon, size: isLargeScreen ? 24 : 20),
-        label: Text(
-          label,
-          style: TextStyle(fontSize: isLargeScreen ? 18 : 16),
-        ),
-        style: ElevatedButton.styleFrom(
-          backgroundColor: primary,
-          foregroundColor: onPrimary,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          padding: EdgeInsets.symmetric(
-            horizontal: isLargeScreen ? 32 : 24,
-            vertical: isLargeScreen ? 16 : 12,
-          ),
-          elevation: 2,
-        ),
-        onPressed: _isPicking ? null : onPressed,
+    return ElevatedButton.icon(
+      icon: Icon(icon, size: isLargeScreen ? 24 : 20),
+      label: Text(
+        label,
+        style: TextStyle(fontSize: isLargeScreen ? 18 : 16),
       ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: primary,
+        foregroundColor: onPrimary,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        padding: EdgeInsets.symmetric(
+          horizontal: isLargeScreen ? 32 : 24,
+          vertical: isLargeScreen ? 16 : 12,
+        ),
+        elevation: 2,
+      ),
+      onPressed: _isPicking ? null : onPressed,
     );
   }
 }

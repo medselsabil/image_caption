@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'gallery_provider.dart';
@@ -7,6 +8,7 @@ class GalleryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(title: const Text('Gallery')),
@@ -37,6 +39,7 @@ class GalleryScreen extends StatelessWidget {
               itemCount: gallery.gallery.length,
               itemBuilder: (context, index) {
                 final imageFile = gallery.gallery[index];
+
                 return Dismissible(
                   key: ValueKey(imageFile.path),
                   direction: DismissDirection.horizontal,
@@ -63,7 +66,8 @@ class GalleryScreen extends StatelessWidget {
                         content: const Text('Image deleted'),
                         action: SnackBarAction(
                           label: 'Undo',
-                          onPressed: () => gallery.undoRemove(),
+                          textColor: isDark ? Colors.black : Colors.white,
+                          onPressed: gallery.undoRemove,
                         ),
                       ),
                     );

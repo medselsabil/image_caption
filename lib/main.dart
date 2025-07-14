@@ -21,12 +21,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = context.watch<ThemeProvider>();
+    final themeProvider = context.watch<
+        ThemeProvider>(); // If user toggles dark/light mode, this widget rebuilds with new theme settings.
     return MaterialApp(
       title: 'Gallery Moments',
+
       theme: ThemeData.light().copyWith(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.grey),
-      ),
+      ), //Start with the standard light theme, but make the main color grey.
       darkTheme: ThemeData.dark().copyWith(
         colorScheme: ColorScheme.fromSwatch(
           brightness: Brightness.dark,
